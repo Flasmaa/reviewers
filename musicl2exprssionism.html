@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expressionism in Music - 50-Item Interactive Reviewer</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0f172a',
+                        cardBg: '#1e293b',
+                        accent: '#6366f1',
+                        accentHover: '#4f46e5'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-darkBg text-slate-100 min-h-screen font-sans antialiased flex flex-col justify-between">
+
+    <!-- Header -->
+    <header class="bg-cardBg border-b border-slate-800 sticky top-0 z-50 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="bg-indigo-600 p-2 rounded-lg text-white">
+                    <i data-lucide="music" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight text-white">Expressionism in Music</h1>
+                    <p class="text-xs text-slate-400">50-Item Master Interactive Reviewer</p>
+                </div>
+            </div>
+            <div id="header-stats" class="hidden items-center space-x-6 text-sm">
+                <div class="flex items-center space-x-2 bg-slate-800 px-3 py-1.5 rounded-full border border-slate-700">
+                    <i data-lucide="clock" class="w-4 h-4 text-indigo-400"></i>
+                    <span id="timer" class="font-mono font-semibold text-slate-200">00:00</span>
+                </div>
+                <div class="flex items-center space-x-2 bg-slate-800 px-3 py-1.5 rounded-full border border-slate-700">
+                    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
+                    <span id="answered-count" class="font-semibold text-slate-200">0 / 50</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-5xl mx-auto px-4 py-8 flex-grow w-full">
+
+        <!-- START SCREEN -->
+        <div id="start-screen" class="bg-cardBg border border-slate-800 rounded-2xl p-8 shadow-xl text-center max-w-2xl mx-auto my-12">
+            <div class="w-16 h-16 bg-indigo-500/10 text-indigo-400 rounded-full flex items-center justify-center mx-auto mb-6 border border-indigo-500/20">
+                <i data-lucide="headphones" class="w-8 h-8"></i>
+            </div>
+            <h2 class="text-3xl font-extrabold text-white mb-3">Ready to test your knowledge?</h2>
+            <p class="text-slate-400 mb-8 leading-relaxed">
+                This comprehensive 50-item interactive reviewer covers Expressionism in Music, historical contexts (1900–1930), key composers (Schoenberg, Stravinsky, Berg, Webern), art influences (Munch, Kandinsky), and core musical elements like atonality, dissonance, Sprechstimme, and serialism.
+            </p>
+            <div class="grid grid-cols-2 gap-4 text-left bg-slate-900/60 p-4 rounded-xl border border-slate-800/80 mb-8 text-sm text-slate-300">
+                <div class="flex items-center space-x-2">
+                    <i data-lucide="help-circle" class="w-4 h-4 text-indigo-400"></i>
+                    <span>50 Multiple-Choice Questions</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <i data-lucide="zap" class="w-4 h-4 text-amber-400"></i>
+                    <span>Instant Feedback & Rationale</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <i data-lucide="grid" class="w-4 h-4 text-emerald-400"></i>
+                    <span>Question Navigation Grid</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <i data-lucide="award" class="w-4 h-4 text-purple-400"></i>
+                    <span>Detailed Score Breakdown</span>
+                </div>
+            </div>
+            <button onclick="startQuiz()" class="w-full py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl shadow-lg shadow-indigo-600/30 transition-all flex items-center justify-center space-x-2 text-lg">
+                <span>Start Reviewer</span>
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <!-- QUIZ SCREEN -->
+        <div id="quiz-screen" class="hidden grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <!-- Left 3 Cols: Question Card -->
+            <div class="lg:col-span-3 space-y-6">
+                <!-- Progress & Q Number -->
+                <div class="flex justify-between items-center bg-cardBg px-6 py-4 rounded-xl border border-slate-800 shadow-sm">
+                    <span id="question-badge" class="text-xs font-bold uppercase tracking-wider bg-indigo-500/20 text-indigo-400 px-3 py-1 rounded-full border border-indigo-500/30">
+                        Question 1 of 50
+                    </span>
+                    <div class="w-1/2 bg-slate-800 h-2 rounded-full overflow-hidden">
+                        <div id="progress-bar" class="bg-indigo-600 h-full transition-all duration-300" style="width: 2%"></div>
+                    </div>
+                </div>
+
+                <!-- Question Box -->
+                <div class="bg-cardBg border border-slate-800 rounded-2xl p-6 md:p-8 shadow-xl">
+                    <h3 id="question-text" class="text-xl md:text-2xl font-semibold text-white mb-6 leading-snug">
+                        Loading question...
+                    </h3>
+
+                    <!-- Options Container -->
+                    <div id="options-container" class="space-y-3 mb-6">
+                        <!-- Options injected dynamically -->
+                    </div>
+
+                    <!-- Rationale Box (Hidden initially) -->
+                    <div id="rationale-box" class="hidden mt-6 p-4 rounded-xl border text-sm transition-all">
+                        <div class="flex items-center space-x-2 font-bold mb-1" id="rationale-title">
+                            <i data-lucide="info" class="w-4 h-4"></i>
+                            <span>Explanation</span>
+                        </div>
+                        <p id="rationale-text" class="text-slate-300 leading-relaxed"></p>
+                    </div>
+                </div>
+
+                <!-- Navigation Controls -->
+                <div class="flex justify-between items-center pt-2">
+                    <button id="prev-btn" onclick="prevQuestion()" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium rounded-xl border border-slate-700 transition-all flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                        <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                        <span>Previous</span>
+                    </button>
+                    <button id="next-btn" onclick="nextQuestion()" class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl shadow-md transition-all flex items-center space-x-2">
+                        <span>Next</span>
+                        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right 1 Col: Question Navigator Sidebar -->
+            <div class="bg-cardBg border border-slate-800 rounded-2xl p-6 shadow-xl flex flex-col h-fit">
+                <div class="flex justify-between items-center mb-4 pb-3 border-b border-slate-800">
+                    <h4 class="font-bold text-white text-sm uppercase tracking-wider flex items-center space-x-2">
+                        <i data-lucide="grid" class="w-4 h-4 text-indigo-400"></i>
+                        <span>Question Map</span>
+                    </h4>
+                    <span class="text-xs text-slate-400">50 Items</span>
+                </div>
+                <div id="question-grid" class="grid grid-cols-5 gap-2 mb-6 max-h-[350px] overflow-y-auto pr-1">
+                    <!-- Grid buttons injected here -->
+                </div>
+                <button onclick="confirmSubmit()" class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded-xl shadow-lg shadow-emerald-600/20 transition-all flex items-center justify-center space-x-2">
+                    <i data-lucide="send" class="w-4 h-4"></i>
+                    <span>Submit Review</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- RESULTS SCREEN -->
+        <div id="results-screen" class="hidden bg-cardBg border border-slate-800 rounded-2xl p-8 shadow-xl max-w-3xl mx-auto text-center my-6">
+            <div id="results-icon" class="w-20 h-20 bg-indigo-500/10 text-indigo-400 rounded-full flex items-center justify-center mx-auto mb-6 border border-indigo-500/20">
+                <i data-lucide="trophy" class="w-10 h-10"></i>
+            </div>
+            <h2 class="text-3xl font-extrabold text-white mb-2">Review Completed!</h2>
+            <p class="text-slate-400 mb-8">Here is your performance summary for Expressionism in Music.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                <div class="bg-slate-900/80 p-5 rounded-xl border border-slate-800">
+                    <span class="text-xs text-slate-400 uppercase tracking-wider block mb-1">Final Score</span>
+                    <span id="final-score" class="text-3xl font-black text-indigo-400">0%</span>
+                </div>
+                <div class="bg-slate-900/80 p-5 rounded-xl border border-slate-800">
+                    <span class="text-xs text-slate-400 uppercase tracking-wider block mb-1">Correct Answers</span>
+                    <span id="final-correct" class="text-3xl font-black text-emerald-400">0 / 50</span>
+                </div>
+                <div class="bg-slate-900/80 p-5 rounded-xl border border-slate-800">
+                    <span class="text-xs text-slate-400 uppercase tracking-wider block mb-1">Time Elapsed</span>
+                    <span id="final-time" class="text-3xl font-black text-slate-200 font-mono">00:00</span>
+                </div>
+            </div>
+
+            <div class="flex space-x-4">
+                <button onclick="restartQuiz()" class="flex-1 py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl shadow-lg transition-all flex items-center justify-center space-x-2">
+                    <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                    <span>Retake Reviewer</span>
+                </button>
+                <button onclick="toggleReviewMode()" class="flex-1 py-3.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold rounded-xl border border-slate-700 transition-all flex items-center justify-center space-x-2">
+                    <i data-lucide="book-open" class="w-4 h-4"></i>
+                    <span>Review Answers</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- REVIEW MODE CONTAINER -->
+        <div id="review-screen" class="hidden space-y-6 max-w-3xl mx-auto my-6">
+            <div class="flex justify-between items-center bg-cardBg px-6 py-4 rounded-xl border border-slate-800 shadow-sm">
+                <h3 class="font-bold text-white text-lg">Answer Key & Review</h3>
+                <button onclick="backToResults()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-sm font-medium border border-slate-700 transition-all flex items-center space-x-2">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                    <span>Back to Summary</span>
+                </button>
+            </div>
+            <div id="review-list" class="space-y-4">
+                <!-- Injected review items -->
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-cardBg border-t border-slate-800 py-4 text-center text-xs text-slate-500">
+        <p>Expressionism in Music • Interactive Educational Reviewer</p>
+    </footer>
+
+    <!-- Script Logic -->
+    <script>
+        const questions = [
+            {
+                id: 1,
+                question: "What is the approximate historical timeframe for Expressionism in music?",
+                options: ["1750–1820", "1890–1920", "1900–1930", "1950–2000"],
+                correct: 2,
+                rationale: "Expressionism in music flourished approximately between 1900 and 1930, following closely after Impressionism (1890–1920)."
+            },
+            {
+                id: 2,
+                question: "In which geographical region did Expressionism primarily originate?",
+                options: ["Germany and Austria", "France and Italy", "Russia and Poland", "England and America"],
+                correct: 0,
+                rationale: "Expressionism originated in Germany and Austria as a reaction against Impressionism and Realism, focusing on inner psychological anguish."
+            },
+            {
+                id: 3,
+                question: "What is the primary aesthetic focus of Expressionism in art and music?",
+                options: ["External nature and beauty", "Raw, intense inner emotion and subjective experience", "Strict adherence to classical sonata forms", "Light, fluid moods and atmospheric charm"],
+                correct: 1,
+                rationale: "Expressionism prioritizes raw inner emotion, anxiety, and subjective psychological experience over external beauty or rationalism."
+            },
+            {
+                id: 4,
+                question: "Expressionism emerged as a direct artistic reaction against which preceding movements?",
+                options: ["Baroque and Classical", "Romanticism and Nationalism", "Impressionism and Realism", "Minimalism and Serialism"],
+                correct: 2,
+                rationale: "Expressionism was born as a strong reaction against the objective reality of Realism and the blurred atmospheric beauty of Impressionism."
+            },
+            {
+                id: 5,
+                question: "Who painted the iconic 1893 Expressionist masterwork 'The Scream'?",
+                options: ["Wassily Kandinsky", "Ernst Ludwig Kirchner", "Claude Monet", "Edvard Munch"],
+                correct: 3,
+                rationale: "Edvard Munch, a Norwegian Expressionist master, painted 'The Scream' in 1893, capturing raw anxiety, dread, and isolation."
+            },
+            {
+                id: 6,
+                question: "What key concept connects color, emotion, and sound in the abstract art of Wassily Kandinsky?",
+                options: ["Color = Emotion = Sound", "Melody = Harmony = Rhythm", "Light = Shadow = Contrast", "Shape = Texture = Form"],
+                correct: 0,
+                rationale: "Wassily Kandinsky pioneered abstract art using color theory where color directly equates to emotional resonance and musical sound."
+            },
+            {
+                id: 7,
+                question: "What visual characteristic is most typical of Ernst Ludwig Kirchner's Expressionist paintings?",
+                options: ["Soft, blurred, fluid pastel brushstrokes", "Bold, jagged lines and intense contrasting colors", "Precise geometric perspective and symmetry", "Detailed photographic realism"],
+                correct: 1,
+                rationale: "Ernst Ludwig Kirchner used bold, jagged lines and striking colors to express psychological tension and urban alienation."
+            },
+            {
+                id: 8,
+                question: "Which of the following best defines 'Dissonance' in Expressionist music?",
+                options: ["Smooth, consonant triads that provide restful resolution", "Clashing, unresolved tones that create tension and unease", "Soft, flowing pentatonic scales", "Strict counterpoint with predictable resolutions"],
+                correct: 1,
+                rationale: "Dissonance involves deliberately harsh sound combinations and clashing tones that remain unresolved to create tension and instability."
+            },
+            {
+                id: 9,
+                question: "What range of dynamics is characteristic of Expressionist music?",
+                options: ["Moderate and steady mezzo-forte dynamics", "Extreme contrasts from fortississimo (fff) to pianississimo (ppp)", "Strictly soft and delicate chamber volume", "Unchanging flat dynamic levels"],
+                correct: 1,
+                rationale: "Expressionist music utilizes extreme dynamic contrasts, shifting abruptly from extremely loud (fff) to extremely soft (ppp)."
+            },
+            {
+                id: 10,
+                question: "How are melodic lines typically constructed in Expressionist music?",
+                options: ["Smooth, singable, and symmetrical contours", "Angular, jagged lines with wide, disjunct leaps and fragmented phrases", "Simple folk-song melodies in major keys", "Repetitive minimalist ostinatos"],
+                correct: 1,
+                rationale: "Melodies in Expressionism are angular and jagged, featuring unpredictable, disjunct leaps rather than smooth, singable contours."
+            },
+            {
+                id: 11,
+                question: "What does 'Atonality' mean in musical composition?",
+                options: ["Music written entirely in a major key", "Music that has no home key or tonal center", "Music played without any instruments", "Music based strictly on modal scales"],
+                correct: 1,
+                rationale: "Atonality is music that lacks a tonal center or home key, treating all twelve chromatic pitches with equal importance."
+            },
+            {
+                id: 12,
+                question: "What are the birth and death years of Arnold Schoenberg?",
+                options: ["1813–1883", "1874–1951", "1882–1971", "1862–1918"],
+                correct: 1,
+                rationale: "Arnold Schoenberg lived from 1874 (Vienna, Austria) to 1951 (Los Angeles, USA)."
+            },
+            {
+                id: 13,
+                question: "Arnold Schoenberg founded which influential group of composers?",
+                options: ["The Five Russian Composers", "The Second Viennese School", "The Impressionist Circle", "The Darmstadt School"],
+                correct: 1,
+                rationale: "Schoenberg founded the Second Viennese School, which included his prominent students Alban Berg and Anton Webern."
+            },
+            {
+                id: 14,
+                question: "What compositional system did Arnold Schoenberg develop to organize atonal music using an ordered sequence of all 12 chromatic pitches?",
+                options: ["Modal jazz harmony", "Twelve-tone technique (serialism)", "Functional tonality", "Whole-tone scaling"],
+                correct: 1,
+                rationale: "Schoenberg developed the twelve-tone technique (serialism), where all 12 semitones are arranged in a strict ordered row."
+            },
+            {
+                id: 15,
+                question: "Which vocal technique, used by Schoenberg in 'Pierrot Lunaire', involves half-spoken, half-sung delivery?",
+                options: ["Bel canto", "Sprechstimme", "Vibrato", "Falsetto"],
+                correct: 1,
+                rationale: "Sprechstimme ('speech-song') is a vocal technique where the performer declaims text with approximate pitched movement."
+            },
+            {
+                id: 16,
+                question: "In what year was Arnold Schoenberg's revolutionary melodrama 'Pierrot Lunaire' composed?",
+                options: ["1893", "1903", "1912", "1925"],
+                correct: 2,
+                rationale: "'Pierrot Lunaire' was composed in 1912, utilizing Sprechstimme and an atonal, fragmented chamber ensemble."
+            },
+            {
+                id: 17,
+                question: "Whose cabaret poetry inspired Schoenberg's 'Pierrot Lunaire'?",
+                options: ["Albert Giraud", "Johann Wolfgang von Goethe", "Friedrich Nietzsche", "Rainer Maria Rilke"],
+                correct: 0,
+                rationale: "Schoenberg set German translations of Albert Giraud's French cabaret poetry for 'Pierrot Lunaire'."
+            },
+            {
+                id: 18,
+                question: "Who is the central symbolic clown figure in Schoenberg's 'Pierrot Lunaire'?",
+                options: ["Harlequin", "Pierrot", "Punchinello", "Scaramouche"],
+                correct: 1,
+                rationale: "Pierrot is the troubled lunar clown figure central to the themes of dream, madness, and moonlight in the work."
+            },
+            {
+                id: 19,
+                question: "What are the birth and death years of Igor Stravinsky?",
+                options: ["1874–1951", "1882–1971", "1890–1965", "1840–1910"],
+                correct: 1,
+                rationale: "Igor Stravinsky was born in Russia in 1882 and died in New York, USA in 1971."
+            },
+            {
+                id: 20,
+                question: "Which Russian composer was Igor Stravinsky's teacher before Stravinsky achieved international fame?",
+                options: ["Pyotr Ilyich Tchaikovsky", "Nikolay Rimsky-Korsakov", "Sergei Rachmaninoff", "Dmitri Shostakovich"],
+                correct: 1,
+                rationale: "Stravinsky studied orchestration and composition under Nikolay Rimsky-Korsakov in Russia."
+            },
+            {
+                id: 21,
+                question: "Which of the following is a famous ballet composed by Igor Stravinsky between 1910 and 1913?",
+                options: ["Swan Lake", "The Nutcracker", "The Rite of Spring", "Coppélia"],
+                correct: 2,
+                rationale: "'The Rite of Spring' (1913), along with 'The Firebird' (1910) and 'Petrushka' (1911), established Stravinsky's mastery."
+            },
+            {
+                id: 22,
+                question: "What famous historic event occurred at the world premiere of Stravinsky's 'The Rite of Spring' in Paris in 1913?",
+                options: ["The orchestra refused to play", "It caused a riot in the audience", "The theater burned down", "It was instantly crowned a peaceful masterpiece"],
+                correct: 1,
+                rationale: "The radical rhythmic complexity, harsh dissonance, and primitive choreography caused a famous riot in the Théâtre des Champs-Élysées audience."
+            },
+            {
+                id: 23,
+                question: "What artistic style is heavily embodied in Stravinsky's 'The Rite of Spring', emphasizing raw, primal energy?",
+                options: ["Neoclassicism", "Primitivism", "Impressionism", "Minimalism"],
+                correct: 1,
+                rationale: "Primitivism in music focuses on raw, driving rhythms, harsh dissonance, and unrefined, primal emotional energy."
+            },
+            {
+                id: 24,
+                question: "What is a 'Polyrhythm' as used in modern and expressionist music?",
+                options: ["Playing only one rhythm very fast", "Two or more distinct rhythms played simultaneously", "A gradual acceleration of tempo", "Strict metronomic regularity"],
+                correct: 1,
+                rationale: "Polyrhythms involve layering two or more conflicting rhythmic patterns at the same time to create complex textural tension."
+            },
+            {
+                id: 25,
+                question: "What does 'Syncopation' involve in musical rhythm?",
+                options: ["Emphasis placed on weak beats or off-beat accents", "Strict emphasis strictly on downbeats 1 and 3", "Complete absence of any rhythmic pulse", "A slow, regular lullaby tempo"],
+                correct: 0,
+                rationale: "Syncopation disrupts regular rhythmic expectations by shifting accentuation to weak beats or off-beats."
+            },
+            {
+                id: 26,
+                question: "Who was Alban Berg in relation to Arnold Schoenberg?",
+                options: ["His fierce rival", "His primary student and member of the Second Viennese School", "His publisher in Vienna", "His literary librettist"],
+                correct: 1,
+                rationale: "Alban Berg was a dedicated student of Schoenberg and a key master of Expressionist opera and instrumental music."
+            },
+            {
+                id: 27,
+                question: "Which famous Expressionist opera by Alban Berg portrays psychological torment and tragic desperation?",
+                options: ["The Magic Flute", "Carmen", "Wozzeck", "La Bohème"],
+                correct: 2,
+                rationale: "Berg's opera 'Wozzeck' (completed in 1922) is a landmark Expressionist work utilizing atonal and dissonant textures."
+            },
+            {
+                id: 28,
+                question: "Who was Anton Webern?",
+                options: ["A French Impressionist painter", "A Russian ballet impresario", "A Viennese Expressionist composer known for extreme brevity and sparse serial textures", "An Italian opera conductor"],
+                correct: 2,
+                rationale: "Anton Webern was a student of Schoenberg known for his extremely condensed, pointillistic, and sparse serial compositions."
+            },
+            {
+                id: 29,
+                question: "What characterizes Anton Webern's musical style?",
+                options: ["Massive romantic orchestras playing lush melodies for hours", "Sparse, isolated melodic notes, extreme brevity, and strict serial structure", "Fast ragtime piano syncopations", "Traditional 16-bar church chorales"],
+                correct: 1,
+                rationale: "Webern's music is known for its extreme conciseness, pointillism, and delicate, isolated musical points across silence."
+            },
+            {
+                id: 30,
+                question: "What is 'Chromatic Saturation'?",
+                options: ["Using only white piano keys", "The equal and comprehensive use of all twelve chromatic semitones", "Tuning instruments to a lower pitch", "Filtering out all sharps and flats"],
+                correct: 1,
+                rationale: "Chromatic saturation refers to a compositional state where all twelve chromatic notes are fully saturated and utilized within a passage."
+            },
+            {
+                id: 31,
+                question: "What does the dynamic marking 'fff' (fortississimo) indicate?",
+                options: ["Very, very soft", "Moderately loud", "Very, very loud", "Gradually getting louder"],
+                correct: 2,
+                rationale: "'fff' stands for fortississimo, indicating an extreme level of maximum volume and sonic force."
+            },
+            {
+                id: 32,
+                question: "What does the dynamic marking 'ppp' (pianississimo) indicate?",
+                options: ["Very, very soft", "Extremely fast", "Plucked strings", "Sudden loud burst"],
+                correct: 0,
+                rationale: "'ppp' stands for pianississimo, indicating an extreme level of delicate, whisper-soft quietness."
+            },
+            {
+                id: 33,
+                question: "How does Impressionist music primarily differ from Expressionist music in its treatment of melody?",
+                options: ["Impressionism uses flowing, smooth, modal melodies; Expressionism uses angular, jagged, disjunct leaps", "Impressionism uses harsh atonal tone rows; Expressionism uses major scales", "There is no difference in melody", "Impressionism has no melody at all"],
+                correct: 0,
+                rationale: "Impressionism favors fluid, smooth, atmospheric contours, whereas Expressionism favors jagged, angular, disjunct lines."
+            },
+            {
+                id: 34,
+                question: "What was the primary focus of Impressionist harmony compared to Expressionism?",
+                options: ["Harsh clashing minor seconds and tone rows", "Fluid, subtle color chords, whole-tone scales, and blurred atmosphere", "Strict functional dominant-tonic cadences", "Pure unaccompanied Gregorian chant"],
+                correct: 1,
+                rationale: "Impressionism focuses on mood, atmosphere, and shimmering color chords, whereas Expressionism confronts raw emotional tension through dissonance."
+            },
+            {
+                id: 35,
+                question: "What subject matter did Expressionist art and music frequently explore?",
+                options: ["Pastoral landscapes and cheerful picnics", "Inner turmoil, anxiety, madness, alienation, and nightmare states", "Heroic military victories and national anthems", "Religious church hymns and wedding marches"],
+                correct: 1,
+                rationale: "Expressionism turned inward to explore psychological depths, neurosis, isolation, dread, and emotional turmoil."
+            },
+            {
+                id: 36,
+                question: "What is a 'Tone Row' in 12-tone serialism?",
+                options: ["A seating chart for orchestral violinists", "An ordered sequence or series of all 12 chromatic notes", "A sequence of drum beats", "A scale played only on black keys"],
+                correct: 1,
+                rationale: "A tone row is a specific ordering of all 12 notes of the chromatic scale that serves as the foundational DNA for a serial composition."
+            },
+            {
+                id: 37,
+                question: "Why did Expressionist composers abandon traditional key signatures and tonality?",
+                options: ["They forgot how to write key signatures", "They felt traditional tonality was inadequate to express the raw, harsh psychological realities of the modern era", "Governments banned major scales", "Sheet paper with staff lines became too expensive"],
+                correct: 1,
+                rationale: "Composers felt traditional harmonic rules were exhausted and unable to capture the psychological intensity of 20th-century anxiety."
+            },
+            {
+                id: 38,
+                question: "Which of Stravinsky's ballets depicts ancient pagan Russian rituals culminating in a sacrificial dance?",
+                options: ["The Firebird", "Petrushka", "The Rite of Spring", "Pulcinella"],
+                correct: 2,
+                rationale: "'The Rite of Spring' depicts prehistoric pagan rituals and culminates in a chosen maiden dancing herself to death."
+            },
+            {
+                id: 39,
+                question: "What role do irregular and shifting meters play in Stravinsky's rhythmic style?",
+                options: ["They create a predictable dancing waltz feel", "They disrupt regular pulsation, adding raw, driving, and unpredictable energy", "They slow the music down to a standstill", "They mimic church bells"],
+                correct: 1,
+                rationale: "Shifting meters (e.g., changing from 5/8 to 7/16 bar by bar) break away from traditional steady bar lines to generate explosive primitive drive."
+            },
+            {
+                id: 40,
+                question: "What is the overarching philosophy of Expressionism summarized in art history?",
+                options: ["Art as decoration and pleasant wallpaper", "Emotion over beauty, truth over aesthetics", "Form follows commercial function", "Strict imitation of classical Greek sculptures"],
+                correct: 1,
+                rationale: "Expressionism deliberately sacrificed external polish and prettiness ('beauty') in favor of raw psychological truth and intense expression."
+            },
+            {
+                id: 41,
+                question: "Which city served as the cultural epicenter for Arnold Schoenberg and the Second Viennese School?",
+                options: ["Paris, France", "Vienna, Austria", "Berlin, Germany", "St. Petersburg, Russia"],
+                correct: 1,
+                rationale: "Vienna, Austria was the historic cradle where Schoenberg, Berg, and Webern developed atonal and serial composition."
+            },
+            {
+                id: 42,
+                question: "Where did Arnold Schoenberg spend his final decades after emigrating from Nazi Europe?",
+                options: ["London, England", "Los Angeles, USA", "Sydney, Australia", "Rome, Italy"],
+                correct: 1,
+                rationale: "Schoenberg emigrated to the United States and spent his later years teaching and composing in Los Angeles, California."
+            },
+            {
+                id: 43,
+                question: "What does 'Free Atonality' refer to in Schoenberg's middle period (pre-serialism)?",
+                options: ["Music written without a key center and without yet using the strict 12-tone row system", "Improvised jazz music", "Music played on un-tuned pianos", "Traditional folk songs with improvised lyrics"],
+                correct: 0,
+                rationale: "Free atonality describes Schoenberg's works written without a tonal center prior to his systematic invention of the 12-tone row."
+            },
+            {
+                id: 44,
+                question: "Which of the following best describes the texture of Expressionist chamber music?",
+                options: ["Thick, homophonic chordal hymns", "Sparse, highly fragmented, transparent yet intensely dissonant counterpoint", "Continuous flowing arpeggios in major keys", "Unison monophonic chanting"],
+                correct: 1,
+                rationale: "Expressionist texture is often spare, highly fragmented, and contrapuntally complex with sharp, isolated instrumental voices."
+            },
+            {
+                id: 45,
+                question: "What is the primary mood evoked by the opening chords of Stravinsky's 'The Rite of Spring'?",
+                options: ["Serene and pastoral calm", "Harsh, straining, high-register woodwind dissonance creating primitive tension", "Joyful celebratory fanfare", "Melancholy blues relaxation"],
+                correct: 1,
+                rationale: "The famous high-register bassoon solo and clashing chordal structures open 'The Rite of Spring' with tense, alien sonic energy."
+            },
+            {
+                id: 46,
+                question: "How do Expressionist painters like Edvard Munch use color?",
+                options: ["As realistic photographic reflection of natural sunlight", "As an independent carrier of raw emotion and psychological dread", "As pastel decorative wallpaper tints", "As strictly black-and-white contrast"],
+                correct: 1,
+                rationale: "Expressionists used swirling, non-naturalistic colors (like blood-red skies or sickly green faces) to externalize inner emotional turmoil."
+            },
+            {
+                id: 47,
+                question: "What was the reaction of many traditional concertgoers when first encountering Expressionist and atonal music in the early 20th century?",
+                options: ["Immediate polite applause and acceptance", "Confusion, shock, and resistance due to the harsh dissonance and lack of familiar tunes", "Indifference and falling asleep", "Dancing in the aisles"],
+                correct: 1,
+                rationale: "Audiences accustomed to Romantic harmony and tonal resolution found atonal dissonance deeply jarring and disorienting."
+            },
+            {
+                id: 48,
+                question: "Which composer wrote the 'Violin Concerto' employing a unique synthesis of traditional tonal sounding rows with chromatic serial language?",
+                options: ["Alban Berg", "Igor Stravinsky", "Claude Monet", "Nikolay Rimsky-Korsakov"],
+                correct: 0,
+                rationale: "Alban Berg's Violin Concerto famously bridges serial technique with subtle tonal references and lyrical quotation."
+            },
+            {
+                id: 49,
+                question: "In comparing Impressionism and Expressionism, which movement is associated with the dates c. 1890–1920?",
+                options: ["Expressionism", "Impressionism", "Baroque", "Classical"],
+                correct: 1,
+                rationale: "Impressionism spans roughly 1890–1920 (pioneered by Debussy and Ravel), whereas Expressionism spans c. 1900–1930."
+            },
+            {
+                id: 50,
+                question: "What is the lasting historical legacy of Expressionism in 20th-century music?",
+                options: ["It ended all classical composition forever", "It permanently shattered traditional harmonic boundaries, opened the door to serialism, atonality, and expanded modern sonic freedom", "It returned music strictly back to medieval chant", "It replaced orchestras with electronic synthesizers"],
+                correct: 1,
+                rationale: "Expressionism radically expanded musical possibilities, freeing composers from major/minor tonality and paving the way for 20th-century modernism."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let userAnswers = new Array(questions.length).fill(null);
+        let timerInterval = null;
+        let secondsElapsed = 0;
+        let isSubmitted = false;
+
+        function startQuiz() {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.remove('hidden');
+            document.getElementById('header-stats').classList.remove('hidden');
+            document.getElementById('header-stats').classList.add('flex');
+            
+            initGrid();
+            loadQuestion(0);
+            startTimer();
+            lucide.createIcons();
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                secondsElapsed++;
+                let mins = Math.floor(secondsElapsed / 60);
+                let secs = secondsElapsed % 60;
+                document.getElementById('timer').textContent = 
+                    `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function initGrid() {
+            const grid = document.getElementById('question-grid');
+            grid.innerHTML = '';
+            questions.forEach((q, index) => {
+                const btn = document.createElement('button');
+                btn.id = `grid-btn-${index}`;
+                btn.textContent = index + 1;
+                btn.className = `w-10 h-10 rounded-xl font-semibold text-xs flex items-center justify-center transition-all bg-slate-800 text-slate-300 border border-slate-700 hover:border-indigo-500`;
+                btn.onclick = () => jumpToQuestion(index);
+                grid.appendChild(btn);
+            });
+            updateGridState();
+        }
+
+        function updateGridState() {
+            questions.forEach((q, index) => {
+                const btn = document.getElementById(`grid-btn-${index}`);
+                if (!btn) return;
+                
+                btn.className = `w-10 h-10 rounded-xl font-semibold text-xs flex items-center justify-center transition-all border `;
+                if (index === currentQuestion) {
+                    btn.className += `ring-2 ring-indigo-400 border-indigo-500 bg-indigo-600/20 text-indigo-300`;
+                } else if (userAnswers[index] !== null) {
+                    btn.className += `bg-emerald-950/60 border-emerald-600/50 text-emerald-300`;
+                } else {
+                    btn.className += `bg-slate-800 border-slate-700 text-slate-300 hover:border-slate-500`;
+                }
+            });
+
+            // Update answered count
+            const answeredCount = userAnswers.filter(a => a !== null).length;
+            document.getElementById('answered-count').textContent = `${answeredCount} / 50`;
+        }
+
+        function loadQuestion(index) {
+            currentQuestion = index;
+            const q = questions[index];
+
+            document.getElementById('question-badge').textContent = `Question ${index + 1} of ${questions.length}`;
+            document.getElementById('question-text').textContent = q.question;
+
+            const progressPercent = ((index + 1) / questions.length) * 100;
+            document.getElementById('progress-bar').style.width = `${progressPercent}%`;
+
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            q.options.forEach((opt, optIndex) => {
+                const isSelected = userAnswers[index] === optIndex;
+                const optionBtn = document.createElement('button');
+                
+                let btnClasses = `w-full text-left p-4 rounded-xl border transition-all flex items-center justify-between font-medium text-sm md:text-base `;
+                
+                if (isSelected) {
+                    btnClasses += `bg-indigo-600/20 border-indigo-500 text-white shadow-sm ring-1 ring-indigo-500`;
+                } else {
+                    btnClasses += `bg-slate-900/60 border-slate-800 text-slate-300 hover:bg-slate-800/80 hover:border-slate-700`;
+                }
+
+                optionBtn.className = btnClasses;
+                optionBtn.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <span class="w-7 h-7 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-xs font-bold text-slate-400">
+                            ${String.fromCharCode(65 + optIndex)}
+                        </span>
+                        <span>${opt}</span>
+                    </div>
+                `;
+                optionBtn.onclick = () => selectOption(optIndex);
+                optionsContainer.appendChild(optionBtn);
+            });
+
+            // Handle Rationale Display
+            const rationaleBox = document.getElementById('rationale-box');
+            if (userAnswers[index] !== null) {
+                showRationale(index);
+            } else {
+                rationaleBox.classList.add('hidden');
+            }
+
+            // Button states
+            document.getElementById('prev-btn').disabled = index === 0;
+            document.getElementById('next-btn').innerHTML = index === questions.length - 1 ? 
+                `<span>Finish</span> <i data-lucide="check" class="w-4 h-4"></i>` : 
+                `<span>Next</span> <i data-lucide="chevron-right" class="w-4 h-4"></i>`;
+
+            updateGridState();
+            lucide.createIcons();
+        }
+
+        function selectOption(optIndex) {
+            userAnswers[currentQuestion] = optIndex;
+            loadQuestion(currentQuestion);
+        }
+
+        function showRationale(index) {
+            const q = questions[index];
+            const userChoice = userAnswers[index];
+            const isCorrect = userChoice === q.correct;
+
+            const rationaleBox = document.getElementById('rationale-box');
+            const rationaleTitle = document.getElementById('rationale-title');
+            const rationaleText = document.getElementById('rationale-text');
+
+            rationaleBox.classList.remove('hidden', 'bg-emerald-950/40', 'border-emerald-800/60', 'bg-rose-950/40', 'border-rose-800/60');
+            
+            if (isCorrect) {
+                rationaleBox.classList.add('bg-emerald-950/40', 'border-emerald-800/60');
+                rationaleTitle.className = 'flex items-center space-x-2 font-bold mb-1 text-emerald-400';
+                rationaleTitle.innerHTML = `<i data-lucide="check-circle" class="w-4 h-4"></i><span>Correct!</span>`;
+            } else {
+                rationaleBox.classList.add('bg-rose-950/40', 'border-rose-800/60');
+                rationaleTitle.className = 'flex items-center space-x-2 font-bold mb-1 text-rose-400';
+                rationaleTitle.innerHTML = `<i data-lucide="x-circle" class="w-4 h-4"></i><span>Incorrect. Correct answer: ${String.fromCharCode(65 + q.correct)}</span>`;
+            }
+
+            rationaleText.textContent = q.rationale;
+            lucide.createIcons();
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                loadQuestion(currentQuestion + 1);
+            } else {
+                confirmSubmit();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                loadQuestion(currentQuestion - 1);
+            }
+        }
+
+        function jumpToQuestion(index) {
+            loadQuestion(index);
+        }
+
+        function confirmSubmit() {
+            const unanswered = userAnswers.filter(a => a === null).length;
+            if (unanswered > 0) {
+                if (!confirm(`You have ${unanswered} unanswered question(s). Do you still want to submit?`)) {
+                    return;
+                }
+            }
+            submitQuiz();
+        }
+
+        function submitQuiz() {
+            clearInterval(timerInterval);
+            document.getElementById('quiz-screen').classList.add('hidden');
+            document.getElementById('header-stats').classList.add('hidden');
+            document.getElementById('results-screen').classList.remove('hidden');
+
+            let correctCount = 0;
+            questions.forEach((q, i) => {
+                if (userAnswers[i] === q.correct) correctCount++;
+            });
+
+            const percentage = Math.round((correctCount / questions.length) * 100);
+            document.getElementById('final-score').textContent = `${percentage}%`;
+            document.getElementById('final-correct').textContent = `${correctCount} / 50`;
+            
+            let mins = Math.floor(secondsElapsed / 60);
+            let secs = secondsElapsed % 60;
+            document.getElementById('final-time').textContent = 
+                `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+
+            buildReviewList();
+            lucide.createIcons();
+        }
+
+        function buildReviewList() {
+            const container = document.getElementById('review-list');
+            container.innerHTML = '';
+
+            questions.forEach((q, index) => {
+                const userChoice = userAnswers[index];
+                const isCorrect = userChoice === q.correct;
+                const div = document.createElement('div');
+                
+                div.className = `p-6 rounded-2xl border bg-cardBg shadow-md ${isCorrect ? 'border-emerald-800/50' : 'border-rose-800/50'}`;
+                
+                let optionsHtml = '';
+                q.options.forEach((opt, optIdx) => {
+                    let badgeClass = 'text-slate-400 bg-slate-800 border-slate-700';
+                    if (optIdx === q.correct) {
+                        badgeClass = 'text-emerald-300 bg-emerald-950 border-emerald-700 font-bold';
+                    } else if (optIdx === userChoice && !isCorrect) {
+                        badgeClass = 'text-rose-300 bg-rose-950 border-rose-700 font-bold line-through';
+                    }
+                    optionsHtml += `<div class="p-2.5 rounded-xl border text-sm flex items-center space-x-3 ${badgeClass}">
+                        <span class="w-6 h-6 rounded-lg bg-slate-900 flex items-center justify-center text-xs">${String.fromCharCode(65 + optIdx)}</span>
+                        <span>${opt}</span>
+                    </div>`;
+                });
+
+                div.innerHTML = `
+                    <div class="flex items-start justify-between mb-3">
+                        <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full border ${isCorrect ? 'bg-emerald-950/60 text-emerald-400 border-emerald-800' : 'bg-rose-950/60 text-rose-400 border-rose-800'}">
+                            Question ${index + 1} — ${isCorrect ? 'Correct' : 'Incorrect'}
+                        </span>
+                    </div>
+                    <h4 class="text-base font-semibold text-white mb-3">${q.question}</h4>
+                    <div class="space-y-2 mb-4">${optionsHtml}</div>
+                    <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 text-sm text-slate-300">
+                        <strong class="text-indigo-400 block mb-1">Rationale:</strong>
+                        ${q.rationale}
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function toggleReviewMode() {
+            document.getElementById('results-screen').classList.add('hidden');
+            document.getElementById('review-screen').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            lucide.createIcons();
+        }
+
+        function backToResults() {
+            document.getElementById('review-screen').classList.add('hidden');
+            document.getElementById('results-screen').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            userAnswers = new Array(questions.length).fill(null);
+            secondsElapsed = 0;
+            isSubmitted = false;
+            
+            document.getElementById('results-screen').classList.add('hidden');
+            document.getElementById('review-screen').classList.add('hidden');
+            document.getElementById('start-screen').classList.remove('hidden');
+            
+            if (timerInterval) clearInterval(timerInterval);
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>
