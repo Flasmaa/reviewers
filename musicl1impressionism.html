@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impressionist Movement Music Quiz Reviewer</title>
+    <style>
+        :root {
+            --primary: #4a5568;
+            --accent: #3182ce;
+            --success: #38a169;
+            --error: #e53e3e;
+            --bg: #f7fafc;
+            --card-bg: #ffffff;
+            --text: #2d3748;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2b6cb0, #2c5282);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            margin: 0 0 10px 0;
+            font-size: 1.8rem;
+        }
+
+        header p {
+            margin: 0;
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+        }
+
+        button {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background-color: #2b6cb0;
+        }
+
+        .secondary-btn {
+            background-color: #718096;
+        }
+
+        .secondary-btn:hover {
+            background-color: #4a5568;
+        }
+
+        #score-display {
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .question-card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--accent);
+        }
+
+        .question-title {
+            font-weight: 600;
+            font-size: 1.05rem;
+            margin-bottom: 15px;
+        }
+
+        .options label {
+            display: block;
+            padding: 8px 12px;
+            margin-bottom: 8px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .options label:hover {
+            background: #edf2f7;
+        }
+
+        .options input {
+            margin-right: 10px;
+        }
+
+        .correct {
+            background-color: #c6f6d5 !important;
+            border-color: #38a169 !important;
+            color: #22543d;
+        }
+
+        .incorrect {
+            background-color: #fed7d7 !important;
+            border-color: #e53e3e !important;
+            color: #742a2a;
+        }
+
+        .explanation {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            font-style: italic;
+            color: #4a5568;
+            display: none;
+        }
+
+        .show-explanation .explanation {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Impressionist Movement in Music Quiz Reviewer</h1>
+        <p>50-Item Comprehensive Reviewer covering Origins, Characteristics, Elements, Debussy, and Ravel</p>
+    </header>
+
+    <div class="controls">
+        <div>
+            <button onclick="submitQuiz()">Submit & Score Quiz</button>
+            <button class="secondary-btn" onclick="resetQuiz()">Reset Quiz</button>
+        </div>
+        <div id="score-display">Score: -- / 50</div>
+    </div>
+
+    <form id="quiz-form">
+        <!-- Questions generated dynamically or statically -->
+        <div id="quiz-container"></div>
+    </form>
+</div>
+
+<script>
+    const quizData = [
+        {
+            q: "1. What does 'Impressionism' generally mean in terms of concept?",
+            options: ["An exact scientific measurement", "An idea, image, or feeling made from imagination/formed in mind", "A strict mathematical formula", "A rigid classical structure"],
+            answer: 1
+        },
+        {
+            q: "2. In what year did late romanticism dominate Europe with composers like Wagner pushing harmonic complexity to its limits?",
+            options: ["1850", "1860", "1874", "1890"],
+            answer: 1
+        },
+        {
+            q: "3. Whose painting sparked the impressionist art movement in France in the year 1874?",
+            options: ["Claude Monet", "Claude Debussy", "Maurice Ravel", "Stéphane Mallarmé"],
+            answer: 0
+        },
+        {
+            q: "4. Around what year did Debussy and Ravel react against Romantic excess, leading to a new musical language of color and atmosphere?",
+            options: ["1860", "1874", "1890", "1900"],
+            answer: 2
+        },
+        {
+            q: "5. By what year did impressionist music flourish in France, where mood, texture, and tone color replaced strict, formal structures?",
+            options: ["1890", "1900", "1918", "1937"],
+            answer: 1
+        },
+        {
+            q: "6. In impressionist art, what is Monet & Light primarily known for focusing on?",
+            options: ["Fleeting moments of light", "Strict geometric shapes", "Dark gothic shadows", "Industrial machinery"],
+            answer: 0
+        },
+        {
+            q: "7. What are the key visual characteristics associated with 'Color & Atmosphere' in impressionist art?",
+            options: ["Sharp black outlines and dark tones", "Unmixed colors and soft edges", "High-contrast primary colors", "Monochromatic sketches"],
+            answer: 1
+        },
+        {
+            q: "8. What does the phrase 'Atmosphere over emotion' mean in Impressionism?",
+            options: ["It prioritizes strong emotional drama and narrative", "It prioritizes mood, atmosphere, and sensory impression rather than strong emotional drama", "It avoids all feelings entirely", "It focuses exclusively on anger and passion"],
+            answer: 1
+        },
+        {
+            q: "9. What types of scales were used by impressionist composers, inspired by Asian and folk music, to create an otherworldly, floating sound?",
+            options: ["Major and minor diatonic scales only", "Whole tone, pentatonic, and modal scales", "Chromatic scales exclusively", "Blues scales"],
+            answer: 1
+        },
+        {
+            q: "10. Which musical feature is described as having 'loosely defined' structures with 'flowing phrases and vague boundaries'?",
+            options: ["Strict sonata form", "Blurred & fluid forms", "Rigid fugue", "March rhythm"],
+            answer: 1
+        },
+        {
+            q: "11. How are 'coloristic effects' utilized in impressionist music?",
+            options: ["Rich timbres, lush harmonies, and orchestral colors are used like a painter's palette to evoke light, water, and nature", "Loud brass instruments depict war", "Percussion instruments dominate every measure", "Electronic synthesizers create modern beats"],
+            answer: 0
+        },
+        {
+            q: "12. In Impressionism, what was timbre (tone color) primarily used as by composers?",
+            options: ["A secondary background accompaniment", "A primary expressive tool blending instruments in unusual combinations", "A tool exclusively for solo piano", "A replacement for rhythm"],
+            answer: 1
+        },
+        {
+            q: "13. Which of the following terms are listed in the notes as descriptors for timbre?",
+            options: ["Loud, soft, fast, slow", "Sharp, round, flat, reedy", "Bright, dark, heavy, light", "Sweet, sour, bitter, salty"],
+            answer: 1
+        },
+        {
+            q: "14. What type of harmony is characteristic of impressionist music to create a sense of ambiguity and floating tension?",
+            options: ["Simple triads in root position", "Extended chords (9ths, 11ths, 13ths) and unresolved dissonances", "Perfect cadences resolving strictly", "Monophonic drone harmony"],
+            answer: 1
+        },
+        {
+            q: "15. How are melodies in impressionist music described?",
+            options: ["Long, predictable, and highly structured", "Fragmentary and elusive", "Fast and aggressive", "Hymn-like and solemn"],
+            answer: 1
+        },
+        {
+            q: "16. What kind of phrases characterize Impressionist melodies?",
+            options: ["Short, wandering phrases that avoid clear resolution", "Rigid, symmetrical 8-bar phrases", "Ascending chromatic scales with final resolutions", "Operatic vocal cadenzas"],
+            answer: 0
+        },
+        {
+            q: "17. How is rhythm characterized in impressionist music?",
+            options: ["Strict, driving, and metronomic", "Fluid and free-flowing, often obscuring the beat", "March-like and rigid", "Completely silent"],
+            answer: 1
+        },
+        {
+            q: "18. What elements give impressionist music a sense of spontaneity and natural movement regarding rhythm?",
+            options: ["Constant tempo changes and loud drums", "Irregular phrase lengths and shifting meters", "Fixed 4/4 time signature throughout", "Syncopated jazz beats"],
+            answer: 1
+        },
+        {
+            q: "19. What features characterize dynamics in impressionist music?",
+            options: ["Sudden explosive shifts from fortissimo to pianissimo", "Subtle graduations and predominantly soft passages using pianissimo and delicate nuance", "Consistently loud orchestral climaxes", "Amplified electric volume"],
+            answer: 1
+        },
+        {
+            q: "20. What is the lifespan of Claude Debussy as noted in the text?",
+            options: ["1850–1910", "1862–1918", "1875–1937", "1880–1945"],
+            answer: 1
+        },
+        {
+            q: "21. Who is known as the primary exponent of impressionism in music?",
+            options: ["Ludwig van Beethoven", "Claude Debussy", "Maurice Ravel", "Richard Wagner"],
+            answer: 1
+        },
+        {
+            q: "22. What did Claude Debussy dissolve to create a fresh language of harmony, texture, and color?",
+            options: ["Traditional rules", "Symphony orchestras", "Piano keyboards", "Opera houses"],
+            answer: 0
+        },
+        {
+            q: "23. Which revolutionary French composer broke away from the rigid structures of the Romantic Era and pioneered a musical language rooted in color and atmosphere?",
+            options: ["Claude Debussy", "Johann Sebastian Bach", "Wolfgang Amadeus Mozart", "Antonio Vivaldi"],
+            answer: 0
+        },
+        {
+            q: "24. What is *Clair de Lune bergamasque* (1905)?",
+            options: ["A fast, aggressive march", "A beloved piano piece evoking a moonlit night with gentle flowing arpeggios and a dreamy, reflective mood", "A massive choral symphony", "A violin concerto depicting a storm"],
+            answer: 1
+        },
+        {
+            q: "25. In what year was *Clair de Lune bergamasque* noted in the materials?",
+            options: ["1888", "1894", "1905", "1937"],
+            answer: 2
+        },
+        {
+            q: "26. What is *La Mer* (1905)?",
+            options: ["A single-movement piano etude", "A three-movement orchestral masterpiece depicting the sea", "A vocal opera in German", "A string quartet in D minor"],
+            answer: 1
+        },
+        {
+            q: "27. What elements does Debussy use in *La Mer* to capture the ocean's movement and light without literal description?",
+            options: ["Shifting textures, fermenting harmonies, and fluid rhythms", "Heavy brass fanfare and military drums", "Electronic sound effects and spoken word", "Strict counterpoint and fugal subjects"],
+            answer: 0
+        },
+        {
+            q: "28. Around what year was Debussy's *Arabesque* composed?",
+            options: ["1874", "1888", "1905", "1918"],
+            answer: 1
+        },
+        {
+            q: "29. What characterizes Debussy's *Arabesque*?",
+            options: ["Flowing, lyrical piano piece featuring gentle, wave-like melodies and delicate ornamentation", "A harsh, dissonant avant-garde experiment", "A patriotic military march", "A somber funeral dirge"],
+            answer: 0
+        },
+        {
+            q: "30. What is *Prélude à l’Après-midi d’un faune* (Prelude to the afternoon of a faun)?",
+            options: ["A solo piano waltz", "A groundbreaking orchestral work (1894) inspired by a poem by Mallarmé, featuring a haunting flute solo and lush harmonies", "A 5-act tragic opera", "A brass band overture"],
+            answer: 1
+        },
+        {
+            q: "31. In what year was *Prélude à l’Après-midi d’un faune* created?",
+            options: ["1874", "1884", "1894", "1905"],
+            answer: 2
+        },
+        {
+            q: "32. Whose poem inspired Debussy's *Prélude à l’Après-midi d’un faune*?",
+            options: ["Victor Hugo", "Mallarmé", "William Shakespeare", "José Rizal"],
+            answer: 1
+        },
+        {
+            q: "33. What prominent solo instrument is featured in *Prélude à l’Après-midi d’un faune*?",
+            options: ["Flute solo", "Trumpet solo", "Violin solo", "Cello solo"],
+            answer: 0
+        },
+        {
+            q: "34. What is Maurice Ravel's lifespan as noted in the text?",
+            options: ["1862–1918", "1875–1937", "1880–1950", "1890–1960"],
+            answer: 1
+        },
+        {
+            q: "35. In which French town was Maurice Ravel born?",
+            options: ["Paris", "Ciboure", "Lyon", "Marseille"],
+            answer: 1
+        },
+        {
+            q: "36. Where did Maurice Ravel study?",
+            options: ["The Paris Conservatory", "The Juilliard School", "The Vienna Conservatory", "The Royal Academy of Music"],
+            answer: 0
+        },
+        {
+            q: "37. What folk music tradition was Maurice Ravel deeply involved with?",
+            options: ["Spanish folk music", "Irish folk music", "Russian folk music", "Filipino folk music"],
+            answer: 0
+        },
+        {
+            q: "38. Which composer's meticulous craftsmanship and orchestrational colors placed him among the greatest impressionist composers?",
+            options: ["Claude Debussy", "Maurice Ravel", "Richard Wagner", "Ludwig van Beethoven"],
+            answer: 1
+        },
+        {
+            q: "39. Which of the following is listed among Ravel's famous works?",
+            options: ["Clair de Lune", "La Mer", "Bolero", "Arabesque"],
+            answer: 2
+        },
+        {
+            q: "40. Which of the following is *not* listed as a work by Ravel?",
+            options: ["Pavane pour une infante défunte", "Jeux d'eau", "Daphnis et Chloé", "Prélude à l’Après-midi d’un faune"],
+            answer: 3
+        },
+        {
+            q: "41. According to the comparison notes, how is Claude Debussy's style characterized regarding mood and imagery?",
+            options: ["Dreamlike, free-flowing, nature, soft colors", "Structured, organized, dance & precision", "Rigid, mathematical, heavy", "Dark, dramatic, stormy"],
+            answer: 0
+        },
+        {
+            q: "42. According to the comparison notes, how is Maurice Ravel's style characterized?",
+            options: ["Dreamlike and free-flowing", "Structured, organized, dance & precision, brilliant orchestration", "Purely improvised and formless", "Minimalist and electronic"],
+            answer: 1
+        },
+        {
+            q: "43. What does the term 'Art Meets Music' in the Impressionist movement highlight?",
+            options: ["Composers getting inspired by art", "Painters playing musical instruments", "Museums closing down concert halls", "Art galleries selling sheet music"],
+            answer: 0
+        },
+        {
+            q: "44. Which musical element in Impressionism is associated with the use of extended chords such as 9ths, 11ths, and 13ths?",
+            options: ["Harmony", "Rhythm", "Timbre", "Dynamics"],
+            answer: 0
+        },
+        {
+            q: "45. Which musical element features 'subtle graduations and predominantly soft passages'?",
+            options: ["Dynamics", "Melody", "Harmony", "Form"],
+            answer: 0
+        },
+        {
+            q: "46. What did Claude Debussy use to evoke light, water, and nature in a manner similar to a painter's palette?",
+            options: ["Rich timbres, lush harmonies, and orchestral colors", "Electronic drum machines", "Amplified rock guitars", "A capella vocal choirs"],
+            answer: 0
+        },
+        {
+            q: "47. What year marked Monet's painting sparking the impressionist movement in France?",
+            options: ["1860", "1874", "1890", "1900"],
+            answer: 1
+        },
+        {
+            q: "48. What year marked late romanticism dominating Europe with Wagner pushing harmonic complexity to its limits?",
+            options: ["1860", "1874", "1890", "1900"],
+            answer: 0
+        },
+        {
+            q: "49. Which of Ravel's works shares its name with a famous slow Spanish-influenced dance style built on a persistent ostinato rhythm?",
+            options: ["Bolero", "Jeux d'eau", "Pavane pour une infante défunte", "Daphnis et Chloé"],
+            answer: 0
+        },
+        {
+            q: "50. What kind of scales are described as giving an otherworldly, floating sound inspired by Asian and folk music?",
+            options: ["Whole tone, pentatonic, and modal scales", "Major scale and minor scale only", "Chromatic and dodecaphonic scales", "Blues and pentatonic scales only"],
+            answer: 0
+        }
+    ];
+
+    const container = document.getElementById('quiz-container');
+
+    function buildQuiz() {
+        let output = '';
+        quizData.forEach((item, index) => {
+            let optionsHTML = '';
+            item.options.forEach((opt, optIndex) => {
+                optionsHTML += `
+                    <label>
+                        <input type="radio" name="question-${index}" value="${optIndex}">
+                        ${opt}
+                    </label>
+                `;
+            });
+            output += `
+                <div class="question-card" id="card-${index}">
+                    <div class="question-title">${item.q}</div>
+                    <div class="options">${optionsHTML}</div>
+                </div>
+            `;
+        });
+        container.innerHTML = output;
+    }
+
+    function submitQuiz() {
+        let score = 0;
+        quizData.forEach((item, index) => {
+            const selectedCard = document.getElementById(`card-${index}`);
+            const selectedOption = document.querySelector(`input[name="question-${index}"]:checked`);
+            
+            // Clear previous highlight
+            const labels = selectedCard.querySelectorAll('label');
+            labels.forEach(l => l.classList.remove('correct', 'incorrect'));
+
+            if (selectedOption) {
+                const userAnswer = parseInt(selectedOption.value);
+                if (userAnswer === item.answer) {
+                    score++;
+                    selectedOption.parentElement.classList.add('correct');
+                } else {
+                    selectedOption.parentElement.classList.add('incorrect');
+                    labels[item.answer].classList.add('correct'); // Show correct one
+                }
+            } else {
+                // Highlight correct answer if left blank
+                labels[item.answer].classList.add('correct');
+            }
+        });
+
+        document.getElementById('score-display').innerText = `Score: ${score} / 50`;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function resetQuiz() {
+        document.getElementById('quiz-form').reset();
+        document.querySelectorAll('.options label').forEach(l => l.classList.remove('correct', 'incorrect'));
+        document.getElementById('score-display').innerText = `Score: -- / 50`;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Initialize quiz on load
+    buildQuiz();
+</script>
+
+</body>
+</html>
