@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math 10 Unit 1 - Ultimate 50-Item Interactive Reviewer</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --success: #16a34a;
+            --error: #dc2626;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --border: #e2e8f0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 40px;
+        }
+        h1 {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+        .category-header {
+            background: #eef2ff;
+            color: var(--primary);
+            padding: 12px 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 8px;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--primary);
+        }
+        .question-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: all 0.2s ease;
+        }
+        .question-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .question-title {
+            font-weight: 600;
+            font-size: 1.05rem;
+            margin-bottom: 12px;
+        }
+        .options-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .option-item {
+            margin-bottom: 8px;
+        }
+        .option-label {
+            display: block;
+            padding: 10px 15px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+            font-size: 0.95rem;
+        }
+        .option-label:hover {
+            background-color: #f1f5f9;
+            border-color: #cbd5e1;
+        }
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+        .feedback {
+            margin-top: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 8px 12px;
+            border-radius: 6px;
+            display: none;
+        }
+        .feedback.correct {
+            background-color: #dcfce7;
+            color: var(--success);
+            display: block;
+        }
+        .feedback.incorrect {
+            background-color: #fee2e2;
+            color: var(--error);
+            display: block;
+        }
+        .submit-container {
+            text-align: center;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+        .btn:active {
+            transform: scale(0.98);
+        }
+        #score-display {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            background: #eef2ff;
+            color: var(--primary);
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Math 10 Unit 1: Comprehensive Reviewer</h1>
+    <div class="subtitle">Interactive 50-Item Quiz (Sequences, Series, Polynomial Division)[cite: 1, 2, 3, 4, 5]</div>
+
+    <form id="quizForm">
+        <!-- CATEGORY 1: Sequences, Series & Sigma Notation (1-10) -->
+        <div class="category-header">Part I: Sequences, Series & Sigma Notation[cite: 5]</div>
+
+        <div class="question-card" data-correct="A">
+            <div class="question-title">1. What is a sequence or progression?[cite: 5]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q1" value="A"> A list of numbers or objects arranged in a special order[cite: 5]</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q1" value="B"> A random collection of numbers with no relation</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q1" value="C"> The sum of all elements in a set</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q1" value="D"> An algebraic expression with variables only</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="B">
+            <div class="question-title">2. How is the general term or $k$-th member of a sequence usually denoted?[cite: 5]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q2" value="A"> $S_n$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q2" value="B"> $a_n$[cite: 5]</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q2" value="C"> $\sum_n$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q2" value="D"> $d_n$</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="C">
+            <div class="question-title">3. What is a fundamental difference between a set and a sequence?[cite: 5]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q3" value="A"> Sets have ordered elements while sequences do not.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q3" value="B"> Repeated elements in a set cannot be eliminated.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q3" value="C"> The terms of a sequence are arranged in a specific order, whereas set elements can be randomly arranged[cite: 5].</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q3" value="D"> Sequences cannot contain numbers.</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="A">
+            <div class="question-title">4. What symbol is used to represent Sigma Notation for a series?[cite: 5]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q4" value="A"> $\sum$ (Sigma)[cite: 5]</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q4" value="B"> $\pi$ (Pi)</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q4" value="C"> $\Delta$ (Delta)</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q4" value="D"> $\infty$ (Infinity)</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="D">
+            <div class="question-title">5. How is the series $a_1 + a_2 + ... + a_n$ written using sigma notation?[cite: 5]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q5" value="A"> $\prod_{i=1}^{n} a_i$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q5" value="B"> $\int_{1}^{n} a_i \, di$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q5" value="C"> $\lim_{n\to\infty} a_n$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q5" value="D"> $\sum_{i=1}^{n} a_i$[cite: 5]</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="B">
+            <div class="question-title">6. What is the general term $a_n$ of the infinite sequence $\{3, 5, 7, 9, ...\}$?[cite: 5]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q6" value="A"> $a_n = 3n$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q6" value="B"> $a_n = 2n + 1$ (or $2n-1$ adjusted)</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q6" value="C"> $a_n = n^2 + 2$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q6" value="D"> $a_n = 5n - 2$</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="C">
+            <div class="question-title">7. What is the general term for the alternating sequence $\{1, -1, 1, -1, 1, ...\}$?[cite: 5]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q7" value="A"> $a_n = (-1)^n$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q7" value="B"> $a_n = 1 - n$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q7" value="C"> $a_n = (-1)^{n-1}$[cite: 5]</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q7" value="D"> $a_n = n(-1)$</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="A">
+            <div class="question-title">8. Express the series $3 + 13 + 23 + 33 + 43 + 53$ in sigma notation[cite: 5].</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q8" value="A"> $\sum_{i=1}^{6} (10n - 7)$[cite: 5]</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q8" value="B"> $\sum_{i=1}^{6} (3n + 10)$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q8" value="C"> $\sum_{i=1}^{6} 10n$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q8" value="D"> $\sum_{i=1}^{6} (5n - 2)$</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="B">
+            <div class="question-title">9. What is a series in mathematics?[cite: 5]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q9" value="A"> The product of all terms in a sequence</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q9" value="B"> The sum of all the terms in a sequence[cite: 5]</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q9" value="C"> The difference between the first and last term</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q9" value="D"> A sequence with a constant ratio</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="D">
+            <div class="question-title">10. What is the general term for the sequence $\{2, 8, 26, 80, ...\}$?[cite: 5]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q10" value="A"> $a_n = 2n + 6$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q10" value="B"> $a_n = 6n - 4$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q10" value="C"> $a_n = 3^n - 1$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q10" value="D"> $a_n = 3^n - 1$ (Pattern check: $3^1-1=2, 3^2-1=8, 3^3-1=26, 3^4-1=80$)[cite: 5]</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <!-- CATEGORY 2: Arithmetic Sequences & Series (11-20) -->
+        <div class="category-header">Part II: Arithmetic Sequences & Series[cite: 4]</div>
+
+        <div class="question-card" data-correct="A">
+            <div class="question-title">11. What is an arithmetic sequence?[cite: 4]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q11" value="A"> A sequence where each term (except the first) is obtained by adding a constant value to the previous term[cite: 4]</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q11" value="B"> A sequence where each term is multiplied by a common ratio</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q11" value="C"> A sequence whose reciprocals form a geometric sequence</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q11" value="D"> A sequence where terms are added to Fibonacci numbers</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="C">
+            <div class="question-title">12. What do we call the constant value added between consecutive terms in an arithmetic sequence?[cite: 4]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q12" value="A"> Common ratio ($r$)</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q12" value="B"> Common factor</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q12" value="C"> Common difference ($d$)[cite: 4]</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q12" value="D"> Arithmetic mean</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="B">
+            <div class="question-title">13. What is the formula for the $n$-th term ($a_n$) of an arithmetic sequence?[cite: 4]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q13" value="A"> $a_n = a_1 \cdot r^{n-1}$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q13" value="B"> $a_n = a_1 + (n - 1)d$[cite: 4]</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q13" value="C"> $a_n = \frac{a_1 + a_n}{2}$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q13" value="D"> $a_n = a_1 + nd$</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="D">
+            <div class="question-title">14. For the arithmetic sequence $\{4, 14, 24, 34, 44\}$, what is the formula for $a_n$?[cite: 4]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q14" value="A"> $a_n = 4n + 10$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q14" value="B"> $a_n = 14n - 4$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q14" value="C"> $a_n = 10n + 4$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q14" value="D"> $a_n = 10n - 6$[cite: 4]</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="A">
+            <div class="question-title">15. If the first term $a_1 = -2$ and the 5th term $a_5 = 10$ in an arithmetic sequence, what is the common difference $d$?[cite: 4]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q15" value="A"> $d = 3$[cite: 4]</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q15" value="B"> $d = 2$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q15" value="C"> $d = 4$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q15" value="D"> $d = 5$</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="C">
+            <div class="question-title">16. Using $a_1 = -2$ and $d = 3$, what is the 10th term ($a_{10}$) of the arithmetic sequence?[cite: 4]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q16" value="A"> 22</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q16" value="B"> 28</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q16" value="C"> 25[cite: 4]</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q16" value="D"> 27</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="B">
+            <div class="question-title">17. Find three arithmetic means between $-5$ and $19$[cite: 4].</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q17" value="A"> $0, 6, 12$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q17" value="B"> $1, 7, 13$[cite: 4]</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q17" value="C"> $-1, 5, 11$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q17" value="D"> $2, 8, 14$</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="D">
+            <div class="question-title">18. What is the formula for the sum $S_n$ of a finite arithmetic series?[cite: 4]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q18" value="A"> $S_n = \frac{a_1(1-r^n)}{1-r}$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q18" value="B"> $S_n = \frac{a_1}{1-r}$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q18" value="C"> $S_n = n \cdot a_1 + d$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q18" value="D"> $S_n = \frac{n(a_1 + a_n)}{2}$[cite: 4]</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="A">
+            <div class="question-title">19. What is true about all infinite arithmetic series?[cite: 4]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q19" value="A"> They are always divergent[cite: 4].</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q19" value="B"> They always converge to 0.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q19" value="C"> They can be evaluated using $|r| < 1$.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q19" value="D"> They have a common ratio of 1.</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="C">
+            <div class="question-title">20. What is the sum of all even numbers from 40 to 400?[cite: 4]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q20" value="A"> 38,420</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q20" value="B"> 40,000</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q20" value="C"> 39,820[cite: 4]</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q20" value="D"> 35,600</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <!-- CATEGORY 3: Geometric Sequences & Series (21-30) -->
+        <div class="category-header">Part III: Geometric Sequences & Series[cite: 3]</div>
+
+        <div class="question-card" data-correct="B">
+            <div class="question-title">21. What is a geometric sequence?[cite: 3]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q21" value="A"> A sequence where a constant value is added to each term</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q21" value="B"> A sequence in which each term (except the first) is obtained by multiplying a constant value to the previous term[cite: 3]</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q21" value="C"> A sequence formed by taking reciprocals of terms</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q21" value="D"> A sequence where each term is the sum of the previous two</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="A">
+            <div class="question-title">22. What do we call the constant value multiplied in a geometric sequence?[cite: 3]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q22" value="A"> Common ratio ($r$)[cite: 3]</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q22" value="B"> Common difference ($d$)</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q22" value="C"> Geometric factor</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q22" value="D"> Scaling divisor</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="D">
+            <div class="question-title">23. What is the $n$-th term formula for a geometric sequence?[cite: 3]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q23" value="A"> $a_n = a_1 + (n-1)d$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q23" value="B"> $a_n = a_1 \cdot r^n$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q23" value="C"> $a_n = \frac{r^{n-1}}{a_1}$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q23" value="D"> $a_n = a_1 \cdot r^{n-1}$[cite: 3]</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="C">
+            <div class="question-title">24. Find the 8th term of the geometric sequence $3, 12, 48, ...$[cite: 3].</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q24" value="A"> 12,288</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q24" value="B"> 24,576</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q24" value="C"> 49,152[cite: 3]</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q24" value="D"> 98,304</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="B">
+            <div class="question-title">25. Find the geometric mean between 8 and 18[cite: 3].</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q25" value="A"> 10</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q25" value="B"> 12[cite: 3]</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q25" value="C"> 13</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q25" value="D"> 15</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="A">
+            <div class="question-title">26. What is the sum formula for a finite geometric series when $r \neq 1$?[cite: 3]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q26" value="A"> $S_n = \frac{a_1(1 - r^n)}{1 - r}$[cite: 3]</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q26" value="B"> $S_n = \frac{a_1}{1 - r^n}$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q26" value="C"> $S_n = \frac{n(a_1 + a_n)}{2}$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q26" value="D"> $S_n = a_1(1 - r^{n-1})$</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="D">
+            <div class="question-title">27. What is the formula for the sum of an infinite geometric series when $|r| < 1$?[cite: 3]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q27" value="A"> $S = \frac{1 - r}{a_1}$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q27" value="B"> $S = a_1(1 - r)$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q27" value="C"> $S = \frac{a_1}{1 + r}$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q27" value="D"> $S = \frac{a_1}{1 - r}$[cite: 3]</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="C">
+            <div class="question-title">28. Evaluate the infinite geometric series $16 + 4 + 1 + ...$[cite: 3].</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q28" value="A"> 24</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q28" value="B"> 32</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q28" value="C"> $\frac{64}{3}$[cite: 3]</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q28" value="D"> 48</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="B">
+            <div class="question-title">29. What happens to an infinite geometric series if $|r| \geq 1$?[cite: 3]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q29" value="A"> It converges to zero.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q29" value="B"> It is divergent (cannot be evaluated)[cite: 3].</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q29" value="C"> Its sum equals $a_1$.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q29" value="D"> It becomes an arithmetic series.</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="A">
+            <div class="question-title">30. Find the 10th term of the sequence $\{2, \frac{2}{3}, \frac{2}{9}, ...\}$[cite: 3].</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q30" value="A"> $\frac{2}{19683}$[cite: 3]</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q30" value="B"> $\frac{2}{6561}$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q30" value="C"> $\frac{1}{9841}$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q30" value="D"> $\frac{2}{729}$</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <!-- CATEGORY 4: Harmonic & Fibonacci Sequences (31-40) -->
+        <div class="category-header">Part IV: Harmonic & Fibonacci Sequences[cite: 2]</div>
+
+        <div class="question-card" data-correct="D">
+            <div class="question-title">31. What is a harmonic sequence?[cite: 2]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q31" value="A"> A sequence whose terms form a geometric sequence.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q31" value="B"> A sequence where terms alternate in sign.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q31" value="C"> A sequence whose squares form an arithmetic sequence.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q31" value="D"> A sequence that contains terms whose reciprocals form an arithmetic sequence[cite: 2].</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="B">
+            <div class="question-title">32. How is the $n$-th term $h_n$ of a harmonic sequence related to its corresponding arithmetic sequence term $a_n$?[cite: 2]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q32" value="A"> $h_n = a_n$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q32" value="B"> $h_n = \frac{1}{a_n}$[cite: 2]</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q32" value="C"> $h_n = a_n - 1$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q32" value="D"> $h_n = \sqrt{a_n}$</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="C">
+            <div class="question-title">33. Who introduced the Fibonacci sequence to Western mathematics?[cite: 2]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q33" value="A"> René Descartes</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q33" value="B"> Pythagoras</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q33" value="C"> Leonardo Pisano (Fibonacci)[cite: 2]</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q33" value="D"> Isaac Newton</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="A">
+            <div class="question-title">34. What are the first two terms of the standard Fibonacci sequence ($F_n$)?[cite: 2]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q34" value="A"> Both are 1[cite: 2]</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q34" value="B"> 0 and 1</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q34" value="C"> 1 and 2</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q34" value="D"> Both are 0</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="B">
+            <div class="question-title">35. How are succeeding terms in the Fibonacci sequence determined?[cite: 2]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q35" value="A"> By multiplying the preceding two terms</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q35" value="B"> By adding the preceding two terms[cite: 2]</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q35" value="C"> By subtracting the first term from the last term</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q35" value="D"> By finding the reciprocal of the arithmetic term</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="D">
+            <div class="question-title">36. What is the recursion relation for the Fibonacci sequence ($F_n$)?[cite: 2]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q36" value="A"> $F_n = F_{n-1} \cdot F_{n-2}$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q36" value="B"> $F_n = 2F_{n-1} + 1$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q36" value="C"> $F_n = F_{n-1} - F_{n-2}$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q36" value="D"> $F_n = F_{n-1} + F_{n-2}$[cite: 2]</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="A">
+            <div class="question-title">37. Which special property is true for every third term of the Fibonacci sequence?[cite: 2]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q37" value="A"> It is divisible by 2[cite: 2].</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q37" value="B"> It is divisible by 3.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q37" value="C"> It is always a prime number.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q37" value="D"> It is a perfect square.</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="C">
+            <div class="question-title">38. Which special property is true for every fourth term of the Fibonacci sequence?[cite: 2]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q38" value="A"> It is divisible by 2.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q38" value="B"> It is divisible by 5.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q38" value="C"> It is divisible by 3[cite: 2].</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q38" value="D"> It is divisible by 4.</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="B">
+            <div class="question-title">39. If we choose any three consecutive terms of the Fibonacci sequence, what is true about the square of the middle term?[cite: 2]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q39" value="A"> It equals the sum of the other two.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q39" value="B"> It is always one more or one less than the product of the other two[cite: 2].</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q39" value="C"> It is always twice the first term.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q39" value="D"> It is equal to zero.</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="D">
+            <div class="question-title">40. What is the sum of any ten consecutive terms of the Fibonacci series equal to?[cite: 2]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q40" value="A"> 10 times the 5th term</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q40" value="B"> 10 times the 10th term</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q40" value="C"> 12 times the 6th term</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q40" value="D"> 11 times the 7th term[cite: 2]</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <!-- CATEGORY 5: Division of Polynomials (41-50) -->
+        <div class="category-header">Part V: Division of Polynomials (Long & Synthetic Division)[cite: 1]</div>
+
+        <div class="question-card" data-correct="A">
+            <div class="question-title">41. What is the first step in the long division of polynomials?[cite: 1]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q41" value="A"> Arrange the terms of the dividend in descending order of degree, inserting zero terms where necessary[cite: 1].</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q41" value="B"> Divide the divisor by the constant term.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q41" value="C"> Multiply all coefficients by $c$.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q41" value="D"> Set the remainder equal to zero.</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="C">
+            <div class="question-title">42. When is long polynomial division finished?[cite: 1]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q42" value="A"> When the quotient equals zero.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q42" value="B"> When all coefficients are positive.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q42" value="C"> When the dividend (remainder) has a smaller degree than the divisor[cite: 1].</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q42" value="D"> When you reach the constant term of the divisor.</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="B">
+            <div class="question-title">43. What is synthetic division?[cite: 1]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q43" value="A"> A complex method for dividing any polynomial of degree 4 or higher</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q43" value="B"> A shortcut method to long division used when dividing by a linear divisor of the form $x - c$[cite: 1]</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q43" value="C"> A method for multiplying binomials</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q43" value="D"> A process to find the common difference of a sequence</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="D">
+            <div class="question-title">44. In synthetic division, if the divisor is $x - c$, what value is placed in the synthetic division box/multiplier?[cite: 1]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q44" value="A"> $-c$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q44" value="B"> $1/c$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q44" value="C"> $0$</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q44" value="D"> $c$ (since $x - c = 0 \implies x = c$)[cite: 1]</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="A">
+            <div class="question-title">45. What does the last number in the third row of synthetic division represent?[cite: 1]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q45" value="A"> The remainder of the division[cite: 1]</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q45" value="B"> The leading coefficient of the quotient</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q45" value="C"> The degree of the polynomial</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q45" value="D"> The common ratio</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="C">
+            <div class="question-title">46. How are the degrees of the quotient terms determined in synthetic division compared to the dividend?[cite: 1]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q46" value="A"> Each term has the same degree as the dividend.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q46" value="B"> Each term has a degree one more than the dividend.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q46" value="C"> Each term has a degree of one less than the corresponding term in the dividend[cite: 1].</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q46" value="D"> All terms become constants.</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="B">
+            <div class="question-title">47. Can synthetic division be directly used when the divisor is a quadratic expression like $x^2 - 3$?[cite: 1]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q47" value="A"> Yes, by using $c = 3$.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q47" value="B"> No, synthetic division requires a linear divisor of degree 1 ($x - c$)[cite: 1].</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q47" value="C"> Yes, if you divide the coefficients by 2.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q47" value="D"> Only if there is no remainder.</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="D">
+            <div class="question-title">48. When the divisor is $ax - b$ (where $a > 1$), what extra step is required at the end of synthetic division?[cite: 1]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q48" value="A"> Multiply all quotient coefficients by $a$.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q48" value="B"> Add $a$ to the remainder.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q48" value="C"> Square the quotient.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q48" value="D"> Divide each coefficient of the quotient (except the remainder) by the leading coefficient $a$[cite: 1].</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="A">
+            <div class="question-title">49. Divide $(3y^3 - 5y - 2)$ by $(y - 3)$. What is the remainder?[cite: 1]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q49" value="A"> 64[cite: 1]</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q49" value="B"> 0</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q49" value="C"> 22</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q49" value="D"> -2</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="question-card" data-correct="C">
+            <div class="question-title">50. How should a missing degree term (e.g., $x^2$ in $3x^4 - 5y - 2$) be handled when setting up polynomial division?[cite: 1]</div>
+            <ul class="options-list">
+                <li class="option-item"><label class="option-label"><input type="radio" name="q50" value="A"> Ignore it completely.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q50" value="B"> Replace it with 1.</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q50" value="C"> Insert a zero term (e.g., $0x^2$) as a placeholder[cite: 1].</label></li>
+                <li class="option-item"><label class="option-label"><input type="radio" name="q50" value="D"> Combine it with the constant term.</label></li>
+            </ul>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="submit-container">
+            <button type="button" class="btn" onclick="gradeQuiz()">Submit & Grade Quiz</button>
+        </div>
+
+        <div id="score-display"></div>
+    </form>
+</div>
+
+<script>
+    function gradeQuiz() {
+        const cards = document.querySelectorAll('.question-card');
+        let score = 0;
+        let total = cards.length;
+
+        cards.forEach((card, index) => {
+            const correctAnswer = card.getAttribute('data-correct');
+            const selectedOption = card.querySelector('input[type="radio"]:checked');
+            const feedback = card.querySelector('.feedback');
+
+            if (selectedOption) {
+                if (selectedOption.value === correctAnswer) {
+                    score++;
+                    feedback.textContent = "Correct! Great job.";
+                    feedback.className = "feedback correct";
+                } else {
+                    feedback.textContent = `Incorrect. The correct answer was option ${correctAnswer}.`;
+                    feedback.className = "feedback incorrect";
+                }
+            } else {
+                feedback.textContent = `Unanswered. The correct answer was option ${correctAnswer}.`;
+                feedback.className = "feedback incorrect";
+            }
+        });
+
+        const scoreDisplay = document.getElementById('score-display');
+        scoreDisplay.style.display = 'block';
+        scoreDisplay.textContent = `Your Score: ${score} out of ${total} (${Math.round((score/total)*100)}%)`;
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>
